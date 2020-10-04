@@ -37,7 +37,9 @@ class MedicionController extends Controller
         $nuevaMedicion->hora = Date::now()->format('H:i:s');
         $nuevaMedicion->medicion = rand(10, 70);
         $nuevaMedicion->save();
-        $totalData = Medicion::orderBy('id', 'DESC')->take(24)->pluck('medicion'); 
+
+
+        $totalData = Medicion::orderBy('id', 'DESC')->take(100)->pluck('medicion'); 
         //dd($totalData);
         
        
