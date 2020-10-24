@@ -28,4 +28,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/mediciones', 'MedicionController@index')->name('mediciones.index');
-Route::get('/mediciones/listado', 'MedicionController@show')->name('mediciones.show');
+Route::get('/mediciones/realtime', 'MedicionController@showRealTime')->name('mediciones.showRealTime');
+Route::post('/mediciones/daily', 'MedicionController@showDaily')->name('mediciones.showDaily');
+Route::post('/mediciones/monthly', 'MedicionController@showMonthly')->name('mediciones.showMonthly');
+Route::get('/mediciones/meses', 'MedicionController@showMeses')->name('mediciones.showMeses');
+
