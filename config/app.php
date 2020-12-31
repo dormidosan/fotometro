@@ -180,6 +180,8 @@ return [
          * Third Party
          */
         Jenssegers\Date\DateServiceProvider::class,
+        
+        //Collective\Html\HtmlServiceProvider::class,
 
     ],
 
@@ -237,6 +239,8 @@ return [
          */
 
         'Date' => Jenssegers\Date\Date::class,
+        //'Form' => Collective\Html\FormFacade::class,
+        //'Html' => Collective\Html\HtmlFacade::class,
 
     ],
 

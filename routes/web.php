@@ -11,10 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
+Route::get('/', 'MedicionController@index')->name('mediciones.index')->middleware('auth');
 Route::get('/prueba', function () {
     echo "PRUEBA FUNCIONAL";
 });
@@ -32,4 +33,6 @@ Route::get('/mediciones/realtime', 'MedicionController@showRealTime')->name('med
 Route::post('/mediciones/daily', 'MedicionController@showDaily')->name('mediciones.showDaily');
 Route::post('/mediciones/monthly', 'MedicionController@showMonthly')->name('mediciones.showMonthly');
 Route::get('/mediciones/meses', 'MedicionController@showMeses')->name('mediciones.showMeses');
+
+Route::get('/download/{mes}', 'MedicionController@getDownload')->name('mediciones.getDownload');
 

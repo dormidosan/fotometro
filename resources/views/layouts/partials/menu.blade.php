@@ -1,10 +1,10 @@
 <li class="nav-item">
     <a class="nav-link" href="{{ route('mediciones.index') }}">Fotometro Grafico</a>
 </li>
-<li class="nav-item">
+<li class="nav-item" style="display: none;" >
     <a class="nav-link" href="#">Doctores</a>
 </li>
-<li class="nav-item">
+<li class="nav-item" style="display: none;" >
     <a class="nav-link" href="#">Reportes</a>
 </li>
 <li class="nav-item dropdown" style="display: none;">

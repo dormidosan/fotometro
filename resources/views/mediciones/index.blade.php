@@ -8,7 +8,12 @@
 @endsection
 
 @section('content')
-<div class="container-fluid">
+
+
+
+<img src="images/rasp.jpg" alt="Girl in a jacket" width="200" height="121" style="display: none;" > 
+<!-- div class="container-fluid" style="background-image: ur0l('images/rasp.jpg');"  -->
+<div class="container-fluid" >
 
   <div class="row justify-content-center">
     <div class="col-md-10">
@@ -65,7 +70,8 @@
   </div> <!--div class="col-md-10" -->
 </div> <!-- div class="row justify-content-center" -->
 
-
+<br>
+<br>
 <div class="row justify-content-center">
   <div class="col-md-10">
     <div class="card">
@@ -117,6 +123,9 @@
   </div> <!--div class="col-md-10" -->
 </div> <!-- div class="row justify-content-center" -->
 
+<br>
+<br>
+
 <div class="row justify-content-center">
   <div class="col-md-10">
     <div class="card">
@@ -129,6 +138,8 @@
         <select name="meses" id="meses">
           <option value="volvo">----</option>
         </select>
+
+        <button id="btnDescargar" class="btn btn-outline-success">Descargar</button>
 
       </div> <!-- div class="card-header" -->
 
@@ -167,7 +178,7 @@
 <script type="text/javascript" src="{{ asset('libs/datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 
 <script >
- var updateInterval = 1000 //Fetch data ever x milliseconds
+ var updateInterval = 4000 //Fetch data ever x milliseconds
  var realtime       = 'on' //If == to on then fetch data every x seconds. else stop fetching 
 
  $(function () {
@@ -445,7 +456,8 @@ function graficarMensual(mes) {
       var res = [];
       var reversed = [];
       console.log(result.data);
-
+      
+      console.log(result.mesid);
       $.each(result.data , function(index,row){
        reversed.push(row);  
 
@@ -483,7 +495,7 @@ function graficarMensual(mes) {
             },
             yaxis : {
               min : 0,
-              max : 1000,
+              //max : 1000,
               show: true
             },
             xaxis : {        
@@ -534,7 +546,7 @@ function graficarMensual(mes) {
                   y = item.datapoint[1].toFixed(2);
 
                   //$("#tooltip").html(item.series.label + " of " + x + " = " + y)
-                  $("#tooltip").html(item.series.label + "  dia: " + x + ", Promedio: " + y)
+                  $("#tooltip").html(item.series.label + "  dia: " + x + ", Total: " + y)
                   .css({top: item.pageY-35, left: item.pageX+5})
                   .fadeIn(200);
                 } else {
@@ -551,12 +563,41 @@ function graficarMensual(mes) {
             $("#tooltip").hide();
           });
 
+          if (result.data == '') {
+            $("#btnDescargar").hide();
+            alert('NO SE ENCONTRO DATOS: ' + result.mes );                    
+          }else{
+            $("#btnDescargar").show();            
+          }
+          document.getElementById("btnDescargar").onclick = function () {                
+                var url = '{{ route("mediciones.getDownload", ":mes") }}';
+                url = url.replace(':mes', result.mesid);
+                console.log(result.mesid);
+                console.log(url);
+                window.location.href = url;
+            };  
+          
+
         }//success: function (result) 
 
 
       });
   
 }
+
+  // function download(mes) {
+  //   $.ajax({
+  //     type: 'GET',
+  //     url: "{a{ route('mediciones.getDownload') }}" ,
+  //     dataType: 'json',
+  //     data: {
+  //       mes: mes         
+  //     },
+  //     success: function (result) {
+            
+  //     }
+  //   });
+  // }
 
 function formTicks(val, ticksArr) {
   var tick = ticksArr[val];

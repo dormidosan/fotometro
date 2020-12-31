@@ -27,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Carbon::setLocale(config('app.locale'));
+        date_default_timezone_set('America/El_Salvador');
         Schema::defaultStringLength(191);
     }
 }

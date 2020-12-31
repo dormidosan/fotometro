@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Response;
 use Carbon\Carbon;
 use DateTime;
 use DB;
+use Illuminate\Support\Facades\Input;
 
 use App\Medicion;
 use Jenssegers\Date\Date;
@@ -43,45 +45,51 @@ class MedicionController extends Controller
         */
         //$nuevaMedicion->save();
 
-
+        //dd(Carbon::now()->format('Ymd'));
         //$totalData = Medicion::orderBy('id', 'DESC')->take(70)->pluck('medicion'); 
         $totalData = Medicion::select('fecha','hora','medicion')
-        ->where('fecha', '=', '20200930')
+        //->where('fecha', '=', '20200930')
         //->where('hora', '<', '15:45')
-        ->orderBy('id', 'ASC')
+        //->where('fecha', '=', Carbon::now()->format('Ymd'))
+        ->orderBy('id', 'DESC')
         ->take(49)
         ->get(); 
         
-
-        //dd(count($totalData));
-        $newRows = 49 - count($totalData) ;
-        //dd($newRows);
-        //$lastHour = end($totalData)->hora;
-        //$collection->last()['active'] 
-        $nuevaHora = Carbon::createFromTimeString($totalData->last()['hora']);  
-
-        //dd($nuevaHora->format('H:i'));
-        //$dt->addMinutes(61);  
-
-        while ($newRows > 0) {
-            //echo 'entro';
-            $nuevaHora = $nuevaHora->addMinutes(15); 
-            $nuevaMedicion = new Medicion();
-            $nuevaMedicion->fecha = $totalData[0]->fecha;
-            $nuevaMedicion->hora = $nuevaHora->format('H:i');
-            $nuevaMedicion->medicion = 0;
-
-            //$totalData[] = ['fecha' => , 'hora' => '', 'medicion' => 0]; 
-            //$totalData = $nuevaMedicion;
-
-            $totalData->push($nuevaMedicion);
-
-            $newRows--;
-        }
+        $newData =  collect([]); 
         //dd($totalData);
+        // $newRows = 49 - count($totalData) ;
+        // //dd($newRows);
+        // //$lastHour = end($totalData)->hora;
+        // //$collection->last()['active'] 
+        // //dd($totalData);
+        // $nuevaHora = Carbon::createFromTimeString($totalData->last()['hora']);  
+
+        // //dd($nuevaHora->format('H:i'));
+        // //$dt->addMinutes(61);  
+
+        // while ($newRows > 0) {
+        //     //echo 'entro';
+        //     $nuevaHora = $nuevaHora->addMinutes(15); 
+        //     $nuevaMedicion = new Medicion();
+        //     $nuevaMedicion->fecha = $totalData[0]->fecha;
+        //     $nuevaMedicion->hora = $nuevaHora->format('H:i');
+        //     $nuevaMedicion->medicion = 0;
+
+        //     //$totalData[] = ['fecha' => , 'hora' => '', 'medicion' => 0]; 
+        //     //$totalData = $nuevaMedicion;
+
+        //     $totalData->push($nuevaMedicion);
+
+        //     $newRows--;
+        // }
+        // //dd($totalData);
+        for ($i = count($totalData) - 1 ; $i >= 0 ; $i--) {
+            $newData->push($totalData[$i]);            
+        }
+
        
         //return $totalData;
-        return json_encode(array('data'=>$totalData));
+        return json_encode(array('data'=>$newData));
         
     }
 
@@ -229,7 +237,7 @@ class MedicionController extends Controller
             //dd('3');
             $mesBusqueda = $request->mes;
         }
-
+        //dd($mesBusqueda);
 
         
         $totalData = Medicion::select(DB::raw("DAY(fecha) AS fecha"),'medicion')
@@ -241,6 +249,7 @@ class MedicionController extends Controller
         //  $arrayDiasPromedio[] = ['dia' => '1','promedio' => rand(100, 1000)];
         //  $arrayDiasPromedio[] = ['dia' => '2','promedio' => rand(100, 1000)];
         //  return json_encode(array('data'=>$arrayDiasPromedio));
+        
 
         $arrayDias = array();
 
@@ -286,7 +295,7 @@ class MedicionController extends Controller
             }
 //--            echo "\n Promedio 1 " . $promedio;
             if ($contador > 0 ) {
-                $promedio = $promedio / $contador;
+                //$promedio = $promedio / $contador;
             }
 //--            echo "\n Promedio 2 " . $promedio;
             $arrayDiasPromedio[] = ['dia' => $rowDia,'promedio' => $promedio];
@@ -294,28 +303,65 @@ class MedicionController extends Controller
        }
         //dd($arrayDiasPromedio);       
         //return $totalData;
-        return json_encode(array('mes'=> $this->listadoMeses($mesBusqueda),'data'=>$arrayDiasPromedio));
+       if ($totalData->isEmpty()) {
+            return json_encode(array('mes'=> $this->listadoMeses($mesBusqueda),'data'=>'','mesid'=>'0'));
+        }
+        return json_encode(array('mes'=> $this->listadoMeses($mesBusqueda),'data'=>$arrayDiasPromedio,'mesid'=>$mesBusqueda));
+
         
     }
 
 
+    //LISTADO PARA EL SELECT EN HTML
     public function showMeses()
     {
         
-        $meses =  array(1 => 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre');
+        $meses =  array(1 => 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
         
         return json_encode(array('data'=>$meses));
         
     }
 
+    //LISTADO MESES SOLO POR EL NOMBRE, PARA DEVOLVER EN EL GRAFICO POR MES
     public function listadoMeses($mes)
     {
         
-        $meses =  array(1 => 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre');
+        $meses =  array(1 => 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
         
         return $meses[$mes];
         
     }
 
+    public function getDownload($mes) {
+        // prepare content
+        //$mediciones = Medicion::all();
+        //dd($request->all());
+        $mesBusqueda = $mes;//Input::get('mes');
+        //dd($mesBusqueda);
+        //$mesBusqueda = $request->mes;
+        $mediciones = Medicion::select('fecha','hora','medicion')
+        ->whereMonth('fecha', '=', $mesBusqueda)
+        ->orderBy('id', 'ASC')
+        ->get(); 
+        //$content = "Logs \n";
+        $content = "fecha,hora,medicion\n";
+        foreach ($mediciones as $medicion) {
+          $content = $content . $medicion->fecha . ", " . $medicion->hora . ", " . $medicion->medicion;
+          $content .= "\n";
+        }
+
+        // file name that will be used in the download
+        $fileName = $this->listadoMeses($mesBusqueda).".txt";
+
+        // use headers in order to generate the download
+        $headers = [
+          'Content-type' => 'text/plain', 
+          'Content-Disposition' => sprintf('attachment; filename="%s"', $fileName),
+          'Content-Length' => strlen($content)
+        ];
+
+        // make a response, with the content, a 200 response code and the headers
+        return Response::make($content, 200, $headers);
+    }
 
 }
