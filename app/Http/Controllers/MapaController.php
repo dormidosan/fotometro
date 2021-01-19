@@ -50,7 +50,7 @@ class MapaController extends Controller
         	2016 =>  '2016',
         	2017 =>  '2017',
         	2018 =>  '2018',
-        	2020 =>  '2009-2018');
+        	2020 =>  '2020');
         
         return json_encode(array('data'=>$anyos));
         
