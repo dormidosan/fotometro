@@ -51,7 +51,7 @@
 
       <div class="card-body" >
         <span class="img-container">
-        <img  id="imagenMes" class="resize" src="" alt="Girl in a jacket"  > 
+        <img  id="imagenMes" class="resize" src="" alt=""  > 
         </span>
       </div>
 

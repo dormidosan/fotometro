@@ -51,7 +51,7 @@
 
       <div class="card-body" >
         <span class="img-container">
-        <img  id="imagenAnyo" class="resize" src="" alt="Girl in a jacket"  > 
+        <img  id="imagenAnyo" class="resize" src="" alt=""  > 
         </span>
       </div>
 
