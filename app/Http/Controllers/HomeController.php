@@ -25,4 +25,26 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function mensual()
+    {
+        return view('mapas.mensual');
+    }
+
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function anual()
+    {
+        return view('mapas.anual');
+    }
 }

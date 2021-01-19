@@ -36,3 +36,13 @@ Route::get('/mediciones/meses', 'MedicionController@showMeses')->name('medicione
 
 Route::get('/download/{mes}', 'MedicionController@getDownload')->name('mediciones.getDownload');
 
+
+
+Route::get('/mensual', 'HomeController@mensual')->name('mapas.mensual');
+Route::get('/anual', 'HomeController@anual')->name('mapas.anual');
+
+Route::get('/mapa/meses', 'MapaController@showMeses')->name('mapas.showMeses');
+Route::get('/mapa/anyos', 'MapaController@showAnyos')->name('mapas.showAnyos');
+
+Route::post('/mapa/mes', 'MapaController@showMes')->name('mapas.showMes');
+Route::post('/mapa/anyo', 'MapaController@showAnyo')->name('mapas.showAnyo');
