@@ -132,7 +132,7 @@
 
       <div class="card-header">
         <i class="fa fa-bar-chart-o"></i>
-        <h3 class="box-title">Grafico mensual</h3>  
+        <h3 class="box-title">Medidor </h3>  
 
         <label for="meses">Escoger mes:</label>
         <select name="meses" id="meses">
