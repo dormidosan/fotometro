@@ -296,7 +296,7 @@ class MedicionController extends Controller
 //--            echo "\n Promedio 1 " . $promedio;
             if ($contador > 0 ) {
                 //$promedio = $promedio / $contador;
-                //$promedio = $promedio / 4;
+                $promedio = $promedio / 4;
             }
 //--            echo "\n Promedio 2 " . $promedio;
             $arrayDiasPromedio[] = ['dia' => $rowDia,'promedio' => $promedio];
