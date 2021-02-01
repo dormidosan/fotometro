@@ -1,5 +1,5 @@
 <li class="nav-item">
-    <a class="nav-link" href="{{ route('mediciones.index') }}">Fotometro Grafico</a>
+    <a class="nav-link" href="{{ route('mediciones.index') }}">Estacion de irradiancia</a>
 </li>
 <li class="nav-item" style="display: none;" >
     <a class="nav-link" href="#">Doctores</a>
